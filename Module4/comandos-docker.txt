@@ -1,0 +1,13 @@
+##docker ps => lista todos os containers que estão de pé
+
+##docker ps -a => lista todos os containers que foram criados
+
+##docker rm {id_container/nome_container} => remover container, precisa estar parado para conseguir remover
+
+##docker start {id_container} => iniciar um container especifico
+
+##docker-compose stop => apenas parar o container que está rodando
+
+##docker-compose down => exclui todo o serviço que criamos no container
+
+##docker exec -it {id_container/nome_container} /bin/bash => acessar o bash do container especifico
