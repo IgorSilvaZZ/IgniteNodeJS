@@ -38,6 +38,13 @@ class Car {
     @Column()
     category_id: string;
 
+    @ManyToOne(() => Category)
+    @JoinColumn({ name: "category_id" })
+    category: Category;
+
+    @Column()
+    available: boolean;
+
     @ManyToMany(() => Specification)
     @JoinTable({
         name: "specifications_cars",
@@ -45,13 +52,6 @@ class Car {
         inverseJoinColumns: [{ name: "specification_id" }],
     })
     specifications: Specification[];
-
-    @ManyToOne(() => Category)
-    @JoinColumn({ name: "category_id" })
-    category: Category;
-
-    @Column()
-    available: boolean;
 
     @CreateDateColumn()
     created_at: Date;
