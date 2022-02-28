@@ -30,12 +30,12 @@ describe("List Cars", () => {
     });
 
     it("Should be able to list available cars by brand", async () => {
-        const car = await carsRepositoryInMemory.create({
+        await carsRepositoryInMemory.create({
             name: "Car2",
             description: "Car description",
-            daily_rate: 140.0,
+            daily_rate: 110.0,
             license_plate: "DEF-1213",
-            fine_amount: 100,
+            fine_amount: 40,
             brand: "Car_brand_test",
             category_id: "category_id",
         });
@@ -44,11 +44,17 @@ describe("List Cars", () => {
             brand: "Car_brand_test",
         });
 
-        expect(cars).toEqual([car]);
+        expect(cars).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    brand: "Car_brand_test",
+                }),
+            ])
+        );
     });
 
     it("Should be able to list available cars by name", async () => {
-        const car = await carsRepositoryInMemory.create({
+        await carsRepositoryInMemory.create({
             name: "Car3",
             description: "Car description",
             daily_rate: 140.0,
@@ -62,7 +68,13 @@ describe("List Cars", () => {
             name: "Car3",
         });
 
-        expect(cars).toEqual([car]);
+        expect(cars).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    name: "Car3",
+                }),
+            ])
+        );
     });
 
     it("Should be able to list available cars by category", async () => {
@@ -80,6 +92,12 @@ describe("List Cars", () => {
             category_id: "123456",
         });
 
-        expect(cars).toEqual([car]);
+        expect(cars).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    category_id: "123456",
+                }),
+            ])
+        );
     });
 });

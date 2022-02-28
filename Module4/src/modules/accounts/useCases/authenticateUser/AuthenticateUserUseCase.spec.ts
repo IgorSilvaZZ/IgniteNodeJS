@@ -1,9 +1,8 @@
-import { AppErrors } from "@shared/errors/AppErrors";
-import { CreateUserUseCase } from "@modules/accounts/useCases/createUser/CreateUserUseCase";
-
 import { ICreateUserDTO } from "@modules/accounts/dtos/ICreateUserDTO";
 import { UsersRepositoryInMemory } from "@modules/accounts/repositories/in-memory/UsersRepositoryInMemory";
 import { AuthenticateUserUseCase } from "@modules/accounts/useCases/authenticateUser/AuthenticateUserUseCase";
+import { CreateUserUseCase } from "@modules/accounts/useCases/createUser/CreateUserUseCase";
+import { AppErrors } from "@shared/errors/AppErrors";
 
 let authenticatedUserUseCase: AuthenticateUserUseCase;
 let usersRepositoryInMemory: UsersRepositoryInMemory;
@@ -42,7 +41,7 @@ describe("Authenticate User", () => {
                 email: "false@email.com",
                 password: "1234",
             });
-        }).rejects.toBeInstanceOf(AppErrors);
+        }).rejects.toEqual(new AppErrors("Email or password incorrect!"));
     });
 
     it("Should not be able to authenticate with incorrect password", () => {
@@ -60,6 +59,6 @@ describe("Authenticate User", () => {
                 email: user.email,
                 password: "incorrectPassword",
             });
-        }).rejects.toBeInstanceOf(AppErrors);
+        }).rejects.toEqual(new AppErrors("Email or password incorrect!"));
     });
 });

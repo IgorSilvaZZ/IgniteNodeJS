@@ -6,7 +6,7 @@ export default {
     // automock: false,
 
     // Stop running tests after `n` failures
-    bail: true,
+    //bail: true,
 
     // The directory where Jest should store its cached dependency information
     // cacheDirectory: "C:\\Users\\Igor\\AppData\\Local\\Temp\\jest",
@@ -128,7 +128,7 @@ export default {
     // setupFiles: [],
 
     // A list of paths to modules that run some code to configure or set up the testing framework before each test
-    // setupFilesAfterEnv: [],
+    setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 
     // The number of seconds after which a test is considered as slow and reported as such in the results.
     // slowTestThreshold: 5,
@@ -137,7 +137,7 @@ export default {
     // snapshotSerializers: [],
 
     // The test environment that will be used for testing
-    // testEnvironment: "jest-environment-node",
+    testEnvironment: "node",
 
     // Options that will be passed to the testEnvironment
     // testEnvironmentOptions: {},

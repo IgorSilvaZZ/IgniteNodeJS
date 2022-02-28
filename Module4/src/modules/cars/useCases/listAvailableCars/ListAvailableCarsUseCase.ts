@@ -12,7 +12,8 @@ interface IRequest {
 @injectable()
 class ListAvailableCarsUseCase {
     constructor(
-        @inject("CarsRepository") private carsRepository: ICarsRepository
+        @inject("CarsRepository")
+        private carsRepository: ICarsRepository
     ) {}
 
     async execute({ category_id, brand, name }: IRequest): Promise<Car[]> {
