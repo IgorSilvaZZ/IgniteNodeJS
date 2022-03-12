@@ -1,5 +1,8 @@
+import { Rental } from "@modules/rentals/infra/typeorm/entities/Rental";
 import { IRentalsRepository } from "@modules/rentals/repositories/IRentalsRepository";
+import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
 import { AppErrors } from "@shared/errors/AppErrors";
+import dayjs from "dayjs";
 
 interface IRequest {
     user_id: string;
@@ -8,13 +11,18 @@ interface IRequest {
 }
 
 class CreateRentalUseCase {
-    constructor(private rentalsRepository: IRentalsRepository) {}
+    constructor(
+        private rentalsRepository: IRentalsRepository,
+        private dateProvider: IDateProvider
+    ) {}
 
     async execute({
         user_id,
         car_id,
         expected_return_data,
-    }: IRequest): Promise<void> {
+    }: IRequest): Promise<Rental> {
+        const minimumHour = 24;
+
         const carUnavailable = await this.rentalsRepository.findOpenRentalByCar(
             car_id
         );
@@ -29,6 +37,26 @@ class CreateRentalUseCase {
         if (rentalOpenToUser) {
             throw new AppErrors("There's rental in progress for user!");
         }
+
+        const dateNow = this.dateProvider.dateNow();
+
+        // Comparando duas datas utlizando o diff assim convertendo essa comparação em horas
+        const compare = this.dateProvider.compareInHours(
+            dateNow,
+            expected_return_data
+        );
+
+        if (compare < minimumHour) {
+            throw new AppErrors("Invalid return time!");
+        }
+
+        const rental = await this.rentalsRepository.create({
+            user_id,
+            car_id,
+            expected_return_data,
+        });
+
+        return rental;
     }
 }
 
