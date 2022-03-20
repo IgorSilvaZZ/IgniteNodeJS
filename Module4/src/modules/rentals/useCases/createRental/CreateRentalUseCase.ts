@@ -3,16 +3,19 @@ import { IRentalsRepository } from "@modules/rentals/repositories/IRentalsReposi
 import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
 import { AppErrors } from "@shared/errors/AppErrors";
 import dayjs from "dayjs";
+import { inject, injectable } from "tsyringe";
 
 interface IRequest {
     user_id: string;
     car_id: string;
     expected_return_data: Date;
 }
-
+@injectable()
 class CreateRentalUseCase {
     constructor(
+        @inject("RentalsRepository")
         private rentalsRepository: IRentalsRepository,
+        @inject("DayjsDateProvider")
         private dateProvider: IDateProvider
     ) {}
 
